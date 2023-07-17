@@ -1,6 +1,7 @@
 import contactsServise from '../models/contacts.js';
-import { HttpError } from '../helpers/index.js';
+
 import { ctrlWrapper } from '../decorators/index.js';
+import handlerForId from './handlerForId.js';
 
 const getAll = async (req, res) => {
   const result = await contactsServise.listContacts();
@@ -8,11 +9,7 @@ const getAll = async (req, res) => {
 };
 
 const getById = async (req, res) => {
-  const { id } = req.params;
-  const result = await contactsServise.getContactById(id);
-  if (!result) {
-    throw HttpError(404, `Contact with id=${id} not found`);
-  }
+  const result = await handlerForId('getContactById', req);
   res.json(result);
 };
 
@@ -22,20 +19,12 @@ const add = async (req, res) => {
 };
 
 const updateById = async (req, res) => {
-  const { id } = req.params;
-  const result = await contactsServise.updateContact(id, req.body);
-  if (!result) {
-    throw HttpError(404, `Contact with id=${id} not found`);
-  }
+  const result = await handlerForId('updateContact', req);
   res.json(result);
 };
 
 const deleteById = async (req, res) => {
-  const { id } = req.params;
-  const result = await contactsServise.removeContact(id);
-  if (!result) {
-    throw HttpError(404, `Contact with id=${id} not found`);
-  }
+  const result = await handlerForId('updateContact', req);
   res.json({ message: 'Delete succes', result });
 };
 
