@@ -1,12 +1,8 @@
 import { Schema, model } from 'mongoose';
 import Joi from 'joi';
 
-import { handleMongooseError } from '../helpers/index.js';
-
-const phoneRegex = /^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,4}[-\s.]?[0-9]{1,9}$/;
-// RegEx for RFC 2822 compliant email address(Simpler version).
-const emailRegex =
-  /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+import { emailRegex, phoneRegex } from '../constants/contact-constants.js';
+import { handleSaveError, validationAtUpdate } from './hooks.js';
 
 const contactSchema = new Schema(
   {
@@ -32,7 +28,10 @@ const contactSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-contactSchema.post('save', handleMongooseError);
+contactSchema.pre('findOneAndUpdate', validationAtUpdate);
+
+contactSchema.post('save', handleSaveError);
+contactSchema.post('findOneAndUpdate', handleSaveError);
 
 const contactAddSchema = Joi.object({
   name: Joi.string().min(3).required(),
