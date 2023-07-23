@@ -44,8 +44,8 @@ const updataFavoriteSchema = Joi.object({
   favorite: Joi.boolean().required(),
 });
 
-const shemas = { contactAddSchema, updataFavoriteSchema };
+const schemas = { contactAddSchema, updataFavoriteSchema };
 
 const Contact = model('contact', contactSchema);
 
-export { Contact, shemas };
+export { Contact, schemas };

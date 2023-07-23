@@ -1,7 +1,7 @@
 import express from 'express';
 
 import contactControlles from '../../controllers/contact-controlles.js';
-import { shemas } from '../../models/contact.js';
+import { schemas } from '../../models/contact.js';
 import { validateBody } from '../../decorators/index.js';
 import { isEmptyBody, isValidId } from '../../middlewars/index.js';
 
@@ -14,7 +14,7 @@ contactsRouter.get('/:id', isValidId, contactControlles.getById);
 contactsRouter.post(
   '/',
   isEmptyBody,
-  validateBody(shemas.contactAddSchema),
+  validateBody(schemas.contactAddSchema),
   contactControlles.add
 );
 
@@ -22,7 +22,7 @@ contactsRouter.put(
   '/:id',
   isValidId,
   isEmptyBody,
-  validateBody(shemas.contactAddSchema),
+  validateBody(schemas.contactAddSchema),
   contactControlles.updateById
 );
 
@@ -30,7 +30,7 @@ contactsRouter.patch(
   '/:id/favorite',
   isValidId,
   isEmptyBody,
-  validateBody(shemas.updataFavoriteSchema),
+  validateBody(schemas.updataFavoriteSchema),
   contactControlles.updateFavorite
 );
 
