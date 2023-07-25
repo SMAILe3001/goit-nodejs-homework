@@ -3,16 +3,22 @@ import express from 'express';
 import contactControlles from '../../controllers/contact-controlles.js';
 import { schemas } from '../../models/contact.js';
 import { validateBody } from '../../decorators/index.js';
-import { isEmptyBody, isValidId } from '../../middlewars/index.js';
+import {
+  authenticate,
+  isEmptyBody,
+  isEmptyBodyFavorite,
+  isValidId,
+} from '../../middlewars/index.js';
 
 const contactsRouter = express.Router();
 
-contactsRouter.get('/', contactControlles.getAll);
+contactsRouter.get('/', authenticate, contactControlles.getAll);
 
-contactsRouter.get('/:id', isValidId, contactControlles.getById);
+contactsRouter.get('/:id', authenticate, isValidId, contactControlles.getById);
 
 contactsRouter.post(
   '/',
+  authenticate,
   isEmptyBody,
   validateBody(schemas.contactAddSchema),
   contactControlles.add
@@ -20,6 +26,7 @@ contactsRouter.post(
 
 contactsRouter.put(
   '/:id',
+  authenticate,
   isValidId,
   isEmptyBody,
   validateBody(schemas.contactAddSchema),
@@ -28,10 +35,11 @@ contactsRouter.put(
 
 contactsRouter.patch(
   '/:id/favorite',
+  authenticate,
   isValidId,
-  isEmptyBody,
+  isEmptyBodyFavorite,
   validateBody(schemas.updataFavoriteSchema),
-  contactControlles.updateFavorite
+  contactControlles.updateStatusContact
 );
 
 contactsRouter.delete('/:id', isValidId, contactControlles.deleteById);

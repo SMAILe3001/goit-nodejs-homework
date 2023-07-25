@@ -14,13 +14,13 @@ const userSchema = new Schema(
     email: {
       type: String,
       unique: true,
-      minlength: 2,
+      minlength: 4,
       required: [true, 'Set email for contact'],
       match: emailRegex,
     },
     password: {
       type: String,
-      minlength: 4,
+      minlength: 6,
       required: [true, 'Set password for user'],
     },
     subscription: {
@@ -28,7 +28,10 @@ const userSchema = new Schema(
       enum: ['starter', 'pro', 'business'],
       default: 'starter',
     },
-    token: String,
+    token: {
+      type: String,
+      default: '',
+    },
   },
   { versionKey: false, timestamps: true }
 );
@@ -36,7 +39,7 @@ const userSchema = new Schema(
 userSchema.post('save', handleSaveError);
 
 const registerSchema = Joi.object({
-  name: Joi.string().required(),
+  name: Joi.string().min(4).required(),
   email: Joi.string().email().pattern(emailRegex).required(),
   password: Joi.string().min(4).required(),
   subscription: Joi.string(),
