@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import { User } from '../models/user.js';
 import { HttpError } from '../helpers/index.js';
 import { ctrlWrapper } from '../decorators/index.js';
+import { subscription } from '../constants/contact-constants.js';
 
 dotenv.config();
 
@@ -69,9 +70,24 @@ const logout = async (req, res) => {
   });
 };
 
+const subscriptionUpdate = async (req, res) => {
+  const { _id } = req.user;
+  const { subscription: newSubscription } = req.body;
+
+  if (!subscription.includes(newSubscription)) {
+    throw HttpError(401, `Subscription not update`);
+  }
+  await User.findByIdAndUpdate(_id, { newSubscription });
+
+  res.json({
+    message: 'Subscription update',
+  });
+};
+
 export default {
   regisrer: ctrlWrapper(regisrer),
   login: ctrlWrapper(login),
   getCurrent: ctrlWrapper(getCurrent),
   logout: ctrlWrapper(logout),
+  subscriptionUpdate: ctrlWrapper(subscriptionUpdate),
 };

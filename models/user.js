@@ -1,7 +1,11 @@
 import { Schema, model } from 'mongoose';
 import Joi from 'joi';
 
-import { emailRegex } from '../constants/contact-constants.js';
+import {
+  emailRegex,
+  subscription,
+  subscriptionDefault,
+} from '../constants/contact-constants.js';
 import { handleSaveError } from './hooks.js';
 
 const userSchema = new Schema(
@@ -25,8 +29,8 @@ const userSchema = new Schema(
     },
     subscription: {
       type: String,
-      enum: ['starter', 'pro', 'business'],
-      default: 'starter',
+      enum: subscription,
+      default: subscriptionDefault,
     },
     token: {
       type: String,

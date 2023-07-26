@@ -3,3 +3,7 @@ export const phoneRegex =
 // RegEx for RFC 2822 compliant email address(Simpler version).
 export const emailRegex =
   /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+
+export const subscription = ['starter', 'pro', 'business'];
+
+export const subscriptionDefault = subscription[0];
