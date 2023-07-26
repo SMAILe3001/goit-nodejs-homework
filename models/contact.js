@@ -49,7 +49,17 @@ const updataFavoriteSchema = Joi.object({
   favorite: Joi.boolean().required(),
 });
 
-const schemas = { contactAddSchema, updataFavoriteSchema };
+const querySchema = Joi.object({
+  page: Joi.number(),
+  limit: Joi.number(),
+  favorite: Joi.boolean(),
+});
+
+const schemas = {
+  contactAddSchema,
+  updataFavoriteSchema,
+  querySchema,
+};
 
 const Contact = model('contact', contactSchema);
 

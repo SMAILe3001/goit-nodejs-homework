@@ -2,7 +2,7 @@ import express from 'express';
 
 import contactControlles from '../../controllers/contact-controlles.js';
 import { schemas } from '../../models/contact.js';
-import { validateBody } from '../../decorators/index.js';
+import { validateBody, validateQuery } from '../../decorators/index.js';
 import {
   authenticate,
   isEmptyBody,
@@ -12,7 +12,12 @@ import {
 
 const contactsRouter = express.Router();
 
-contactsRouter.get('/', authenticate, contactControlles.getAll);
+contactsRouter.get(
+  '/',
+  authenticate,
+  validateQuery(schemas.querySchema),
+  contactControlles.getAll
+);
 
 contactsRouter.get('/:id', authenticate, isValidId, contactControlles.getById);
 
