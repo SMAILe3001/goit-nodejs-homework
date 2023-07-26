@@ -61,7 +61,7 @@ const deleteById = async (req, res) => {
     throw HttpError(404, `Contact with id=${id} not found`);
   }
 
-  res.json({ message: 'Delete succes', result });
+  res.json({ message: 'Delete success', result });
 };
 
 export default {
