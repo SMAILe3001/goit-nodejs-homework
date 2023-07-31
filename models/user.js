@@ -1,12 +1,12 @@
 import { Schema, model } from 'mongoose';
 import Joi from 'joi';
 
+import { emailRegex } from '../constants/contact-constants.js';
 import {
-  emailRegex,
   subscription,
   subscriptionDefault,
-} from '../constants/contact-constants.js';
-import { handleSaveError } from './hooks.js';
+} from '../constants/user-constante.js';
+import { handleSaveError, validationAtUpdate } from './hooks.js';
 
 const userSchema = new Schema(
   {
@@ -40,7 +40,10 @@ const userSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
+userSchema.pre('findOneAndUpdate', validationAtUpdate);
+
 userSchema.post('save', handleSaveError);
+userSchema.post('findOneAndUpdate', handleSaveError);
 
 const registerSchema = Joi.object({
   name: Joi.string().min(4).required(),

@@ -1,13 +1,10 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
 
 import { User } from '../models/user.js';
 import { HttpError } from '../helpers/index.js';
 import { ctrlWrapper } from '../decorators/index.js';
-import { subscription } from '../constants/contact-constants.js';
-
-dotenv.config();
+import { subscription } from '../constants/user-constante.js';
 
 const { SECRET_KEY } = process.env;
 
