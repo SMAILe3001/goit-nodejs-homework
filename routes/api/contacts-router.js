@@ -12,18 +12,18 @@ import {
 
 const contactsRouter = express.Router();
 
+contactsRouter.use(authenticate);
+
 contactsRouter.get(
   '/',
-  authenticate,
   validateQuery(schemas.querySchema),
   contactControlles.getAll
 );
 
-contactsRouter.get('/:id', authenticate, isValidId, contactControlles.getById);
+contactsRouter.get('/:id', isValidId, contactControlles.getById);
 
 contactsRouter.post(
   '/',
-  authenticate,
   isEmptyBody,
   validateBody(schemas.contactAddSchema),
   contactControlles.add
@@ -31,7 +31,6 @@ contactsRouter.post(
 
 contactsRouter.put(
   '/:id',
-  authenticate,
   isValidId,
   isEmptyBody,
   validateBody(schemas.contactAddSchema),
@@ -40,7 +39,6 @@ contactsRouter.put(
 
 contactsRouter.patch(
   '/:id/favorite',
-  authenticate,
   isValidId,
   isEmptyBodyFavorite,
   validateBody(schemas.updataFavoriteSchema),
