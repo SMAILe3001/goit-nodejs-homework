@@ -24,6 +24,11 @@ const contactSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
+      required: true,
+    },
   },
   { versionKey: false, timestamps: true }
 );
@@ -44,8 +49,18 @@ const updataFavoriteSchema = Joi.object({
   favorite: Joi.boolean().required(),
 });
 
-const shemas = { contactAddSchema, updataFavoriteSchema };
+const querySchema = Joi.object({
+  page: Joi.number(),
+  limit: Joi.number(),
+  favorite: Joi.boolean(),
+});
+
+const schemas = {
+  contactAddSchema,
+  updataFavoriteSchema,
+  querySchema,
+};
 
 const Contact = model('contact', contactSchema);
 
-export { Contact, shemas };
+export { Contact, schemas };
