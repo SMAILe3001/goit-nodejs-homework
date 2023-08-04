@@ -1,5 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import fs from 'fs/promises';
+import path from 'path';
 
 import { User } from '../models/user.js';
 import { HttpError } from '../helpers/index.js';
@@ -7,6 +9,7 @@ import { ctrlWrapper } from '../decorators/index.js';
 import { subscription } from '../constants/user-constante.js';
 
 const { SECRET_KEY } = process.env;
+const avatarPath = path.resolve('public', 'avatars');
 
 const regisrer = async (req, res) => {
   const { email, password } = req.body;
@@ -15,13 +18,24 @@ const regisrer = async (req, res) => {
     throw HttpError(409, `Email ${email} already in use`);
   }
   const hashPassword = await bcrypt.hash(password, 10);
-  const newUser = await User.create({ ...req.body, password: hashPassword });
+
+  const { path: oldPath, filename } = req.file;
+  const newPath = path.join(avatarPath, filename);
+  await fs.rename(oldPath, newPath);
+  const avatarURL = path.join('avatars', filename);
+
+  const newUser = await User.create({
+    ...req.body,
+    password: hashPassword,
+    avatarURL,
+  });
 
   res.status(201).json({
     user: {
       name: newUser.name,
       email: newUser.email,
       subscription: newUser.subscription,
+      avatarURL,
     },
   });
 };
