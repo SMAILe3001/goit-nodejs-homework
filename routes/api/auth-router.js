@@ -9,7 +9,6 @@ const authRouter = express.Router();
 
 authRouter.post(
   '/register',
-  upload.single('avatar'),
   validateBody(schemas.registerSchema),
   authControlles.regisrer
 );
@@ -25,5 +24,12 @@ authRouter.get('/current', authenticate, authControlles.getCurrent);
 authRouter.post('/logout', authenticate, authControlles.logout);
 
 authRouter.patch('/', authenticate, authControlles.subscriptionUpdate);
+
+authRouter.patch(
+  '/avatars',
+  upload.single('avatar'),
+  authenticate,
+  authControlles.avatarUpdate
+);
 
 export default authRouter;
