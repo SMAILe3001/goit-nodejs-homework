@@ -32,6 +32,7 @@ const userSchema = new Schema(
       enum: subscription,
       default: subscriptionDefault,
     },
+    avatarURL: String,
     token: {
       type: String,
       default: '',
