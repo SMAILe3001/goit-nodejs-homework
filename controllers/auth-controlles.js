@@ -104,8 +104,9 @@ const avatarUpdate = async (req, res) => {
 
   Jimp.read(oldPath, (err, avatar) => {
     if (err) throw err;
-    avatar.resize(256, 256).quality(60).write(newPath);
-    fs.unlink(oldPath);
+    avatar.resize(250, 250).quality(60).write(newPath);
+    // видалення не потрібної аватарки з папки темп
+    // fs.unlink(oldPath);
   });
 
   const avatarURL = path.join('avatars', filename);
